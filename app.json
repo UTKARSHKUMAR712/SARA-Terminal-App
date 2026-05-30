@@ -24,13 +24,6 @@
       "expo-status-bar",
       "expo-font",
       [
-        "expo-splash-screen",
-        {
-          "backgroundColor": "#0d1117",
-          "resizeMode": "contain"
-        }
-      ],
-      [
         "expo-build-properties",
         {
           "android": {
@@ -38,6 +31,12 @@
           }
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "f7c18f3b-7979-496d-a784-b12b338fd3bd"
+      }
+    },
+    "owner": "utkarsh712"
   }
 }
