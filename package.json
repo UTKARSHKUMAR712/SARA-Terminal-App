@@ -1,0 +1,27 @@
+{
+  "name": "sara-terminal",
+  "version": "1.0.0",
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios"
+  },
+  "dependencies": {
+    "@expo/vector-icons": "^15.0.3",
+    "@react-native-async-storage/async-storage": "2.2.0",
+    "babel-preset-expo": "~56.0.0",
+    "expo": "^56.0.6",
+    "expo-asset": "~56.0.15",
+    "expo-build-properties": "~56.0.15",
+    "expo-file-system": "~56.0.7",
+    "expo-font": "~56.0.5",
+    "expo-splash-screen": "~56.0.10",
+    "expo-status-bar": "~56.0.4",
+    "react": "19.2.3",
+    "react-native": "0.85.3",
+    "react-native-safe-area-context": "~5.7.0",
+    "react-native-url-polyfill": "^3.0.0",
+    "react-native-webview": "13.16.1"
+  }
+}
