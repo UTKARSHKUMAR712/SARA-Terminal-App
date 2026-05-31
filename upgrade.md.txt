@@ -1,0 +1,352 @@
+# SARA MOBILE APP V2 - TELEGRAM + TERMINAL INTEGRATION UPGRADE
+
+## Goal
+
+Upgrade the existing SARA React Native (Expo) application.
+
+DO NOT remove the current terminal system.
+
+DO NOT replace the current terminal UI.
+
+Instead:
+
+Add Telegram as a second major feature inside the same app.
+
+---
+
+# CURRENT APP
+
+Current app already contains:
+
+```text
+SARA Terminal
+├─ WebView Terminal
+├─ Multi Tabs
+├─ Split View
+├─ Themes
+├─ Command Bar
+├─ Settings
+└─ Cloudflare Runtime Support
+```
+
+Keep all existing functionality intact.
+
+---
+
+# NEW ARCHITECTURE
+
+Create:
+
+```text
+SARA App
+├─ Terminal
+├─ Telegram
+└─ Settings
+Keep telgram scrren as defult
+```
+
+---
+
+# TELEGRAM SCREEN
+
+Add a dedicated Telegram screen.
+
+Use:
+
+```text
+https://web.telegram.org/k/#@sara712_bot
+```
+
+inside a WebView.
+
+Requirements:
+
+* Stay logged in
+* Persist cookies
+* Persist sessions
+* Persist Telegram authentication
+* Reopen exactly where user left off
+
+User should not need to login repeatedly.
+
+---
+
+# IMPORTANT DESIGN GOAL
+
+The Telegram WebView should become:
+
+```text
+Primary Command Interface
+```
+
+User flow:
+
+```text
+Open App
+↓
+Telegram Bot Opens
+↓
+User Sends Commands
+↓
+Bot Replies
+↓
+User Taps Links
+```
+
+---
+
+# TERMINAL LINK INTERCEPTION
+
+Current SARA runtime generates links like:
+
+```text
+https://xxxxx.trycloudflare.com/t/abc123?token=...
+```
+
+When user taps one of these links inside Telegram:
+
+DO NOT:
+
+```text
+Open Chrome
+```
+
+DO NOT:
+
+```text
+Open External Browser
+```
+
+DO NOT:
+
+```text
+Navigate Telegram WebView
+```
+
+Instead:
+
+Intercept the URL.
+
+---
+
+# REQUIRED FLOW
+
+User:
+
+```text
+/terminal
+```
+
+Bot replies:
+
+```text
+https://xxxxx.trycloudflare.com/t/abc123?token=...
+```
+
+User taps link.
+
+App intercepts:
+
+```text
+trycloudflare.com/t/
+```
+
+App automatically:
+
+```text
+Switches to Terminal Screen
+```
+
+and loads:
+
+```text
+https://xxxxx.trycloudflare.com/t/abc123?token=...
+```
+
+inside existing terminal WebView.
+
+---
+
+# USER EXPERIENCE
+
+Flow becomes:
+
+```text
+Open SARA App
+↓
+Telegram Screen
+↓
+Talk to Bot
+↓
+Receive Terminal Link
+↓
+Tap Link
+↓
+Terminal Opens Instantly
+```
+
+No:
+
+* Copy Paste
+* Chrome
+* Browser Switching
+* External Apps
+
+Everything remains inside SARA.
+
+---
+
+# URL DETECTION RULES
+
+Detect:
+
+```text
+/t/
+```
+
+paths.
+
+Examples:
+
+```text
+https://xxxxx.trycloudflare.com/t/abc123
+```
+
+```text
+https://xxxxx.trycloudflare.com/t/session123?token=...
+```
+
+These must automatically open Terminal Screen.
+
+---
+
+# TERMINAL SCREEN
+
+Keep current implementation.
+
+Existing features remain:
+
+```text
+Multi Tabs
+Split View
+Themes
+Command Bar
+Font Controls
+Desktop Mode
+Background Images
+PowerShell
+CMD
+```
+
+No regressions allowed.
+
+---
+
+# NAVIGATION
+
+Preferred:
+
+Bottom Tab Navigation
+
+```text
+┌─────────────────────┐
+│ Telegram │ Terminal │
+└─────────────────────┘
+```
+
+Settings accessible from header/menu.
+
+---
+
+# TELEGRAM SESSION PERSISTENCE
+
+Must survive:
+
+* App restart
+* Device restart
+* Screen rotation
+* Backgrounding
+
+User should login once.
+
+---
+
+# TERMINAL SESSION PERSISTENCE
+
+Must preserve:
+
+* Active tabs
+* Active terminal URLs
+* Theme
+* Settings
+
+Existing functionality should continue working.
+
+---
+
+# OPTIONAL FUTURE SUPPORT
+
+Design code structure so later we can add:
+
+```text
+Home
+Telegram
+Terminal
+Knowledge Search
+Runtime Dashboard
+Settings
+```
+
+without major refactoring.
+
+Do NOT implement these now.
+
+Just keep architecture clean.
+
+---
+
+# IMPORTANT RULE
+
+DO NOT build a Telegram Mini App.
+
+DO NOT build a Telegram clone.
+
+DO NOT build a custom chat system.
+
+Simply embed:
+
+```text
+https://web.telegram.org/k/#@sara712_bot
+```
+
+inside a dedicated WebView and integrate it with the existing terminal runtime.
+
+---
+
+# FINAL USER EXPERIENCE
+
+User opens SARA.
+
+Telegram bot is already visible.
+
+User sends:
+
+```text
+/terminal
+```
+
+Bot returns terminal session link.
+
+User taps link.
+
+App automatically opens Terminal screen.
+
+Terminal session loads.
+
+All inside the same app.
+
+No external browser.
+No copy-paste.
+No app switching.
+
+This should feel like a single integrated SARA ecosystem.
