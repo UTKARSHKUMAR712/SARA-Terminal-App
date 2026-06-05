@@ -48,22 +48,33 @@ export const TELEGRAM_CSS = `
 
 export const INTERCEPT_SCRIPT = `
 (function() {
+  function isFileBrowser(url) {
+    return url.indexOf('/files') !== -1 && url.indexOf('trycloudflare.com') !== -1;
+  }
+  function isTerminal(url) {
+    return url.indexOf('/t/') !== -1;
+  }
+  function handleUrl(url) {
+    if (isTerminal(url)) {
+      window.ReactNativeWebView.postMessage(JSON.stringify({type:'terminal',url:url}));
+      return true;
+    }
+    if (isFileBrowser(url)) {
+      window.ReactNativeWebView.postMessage(JSON.stringify({type:'files',url:url}));
+      return true;
+    }
+    return false;
+  }
   var origOpen = window.open;
   window.open = function(url, name, specs) {
-    if (url && url.indexOf('/t/') !== -1) {
-      window.ReactNativeWebView.postMessage(JSON.stringify({type:'terminal',url:url}));
-      return null;
-    }
+    if (url && handleUrl(url)) return null;
     return origOpen.apply(window, arguments);
   };
   document.addEventListener('click', function(e) {
     var link = e.target.closest('a[href]');
     if (link) {
       var href = link.getAttribute('href');
-      if (href && href.indexOf('/t/') !== -1) {
-        e.preventDefault();
-        window.ReactNativeWebView.postMessage(JSON.stringify({type:'terminal',url:href}));
-      }
+      if (href && handleUrl(href)) e.preventDefault();
     }
   }, true);
 })();

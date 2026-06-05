@@ -36,21 +36,31 @@ export default function TelegramScreen() {
 
   const handleNavStateChange = useCallback((request) => {
     const url = request.url || '';
+    if (url.includes('/files') && url.includes('trycloudflare.com')) {
+      navigation.navigate('FileBrowser', { url });
+      return false;
+    }
     if (url.includes('/t/') && url.includes('trycloudflare.com')) {
       copyAndOpenTerminal(url);
       return false;
     }
     return true;
-  }, [copyAndOpenTerminal]);
+  }, [copyAndOpenTerminal, navigation]);
+
+  const openFileBrowser = useCallback((url) => {
+    navigation.navigate('FileBrowser', { url });
+  }, [navigation]);
 
   const handleMessage = useCallback((event) => {
     try {
       const data = JSON.parse(event.nativeEvent.data);
-      if (data.type === 'terminal' && data.url) {
+      if (data.type === 'files' && data.url) {
+        openFileBrowser(data.url);
+      } else if (data.type === 'terminal' && data.url) {
         copyAndOpenTerminal(data.url);
       }
     } catch (e) {}
-  }, [copyAndOpenTerminal]);
+  }, [copyAndOpenTerminal, openFileBrowser]);
 
   useFocusEffect(
     useCallback(() => {
