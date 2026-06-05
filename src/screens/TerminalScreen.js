@@ -21,6 +21,7 @@ import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CommandBar from '../components/CommandBar';
 import FloatingMenu from '../components/FloatingMenu';
+import { getFileBrowserUrl } from '../shared/fileBrowserStore';
 
 const FONT_SIZES = Array.from({ length: 20 }, (_, i) => i + 5);
 const THEMES_LIST = [
@@ -398,7 +399,10 @@ export default function TerminalScreen({ route }) {
       </SafeAreaView>
       <FloatingMenu
         currentScreen="terminal"
-        onNavigate={(screen) => navigation.navigate(screen === 'settings' ? 'Terminal' : screen)}
+        onNavigate={(screen) => {
+          if (screen === 'FileBrowser') { navigation.navigate('FileBrowser', { url: getFileBrowserUrl() }); }
+          else { navigation.navigate(screen === 'settings' ? 'Terminal' : screen); }
+        }}
       />
     </>
   );
@@ -442,7 +446,10 @@ export default function TerminalScreen({ route }) {
       <CommandBar webViewRef={webViewRef} />
       <FloatingMenu
         currentScreen="terminal"
-        onNavigate={(screen) => navigation.navigate(screen === 'settings' ? 'Terminal' : screen)}
+        onNavigate={(screen) => {
+          if (screen === 'FileBrowser') { navigation.navigate('FileBrowser', { url: getFileBrowserUrl() }); }
+          else { navigation.navigate(screen === 'settings' ? 'Terminal' : screen); }
+        }}
       />
     </View>
   );

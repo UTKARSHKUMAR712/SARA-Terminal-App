@@ -2,13 +2,16 @@ import React, { useState } from 'react';
 import { TouchableOpacity, Modal, View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { getFileBrowserUrl } from '../shared/fileBrowserStore';
 
 export default function FloatingMenu({ currentScreen, onNavigate }) {
   const [showMenu, setShowMenu] = useState(false);
   const insets = useSafeAreaInsets();
+  const fbUrl = getFileBrowserUrl();
 
-  const iconName = currentScreen === 'telegram' ? 'terminal' : 'paper-plane';
-  const nextLabel = currentScreen === 'telegram' ? 'Terminal' : 'Telegram';
+  let iconName = 'paper-plane';
+  if (currentScreen === 'telegram') iconName = 'terminal';
+  else if (currentScreen === 'files') iconName = 'folder-open';
 
   return (
     <>
@@ -40,6 +43,19 @@ export default function FloatingMenu({ currentScreen, onNavigate }) {
               <Text style={styles.menuLabel}>Terminal</Text>
               {currentScreen === 'terminal' && <Ionicons name="checkmark" size={14} color="#238636" />}
             </TouchableOpacity>
+            {fbUrl && (
+              <>
+              <View style={styles.menuDivider} />
+              <TouchableOpacity
+                style={styles.menuItem}
+                onPress={() => { setShowMenu(false); onNavigate('FileBrowser'); }}
+              >
+                <Ionicons name="folder-open" size={18} color="#58a6ff" />
+                <Text style={styles.menuLabel}>File Browser</Text>
+                {currentScreen === 'files' && <Ionicons name="checkmark" size={14} color="#238636" />}
+              </TouchableOpacity>
+              </>
+            )}
             <View style={styles.menuDivider} />
             <TouchableOpacity
               style={styles.menuItem}

@@ -14,6 +14,7 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import * as Clipboard from 'expo-clipboard';
 import { buildInjectionScript, INTERCEPT_SCRIPT } from '../theme/telegram_theme';
 import FloatingMenu from '../components/FloatingMenu';
+import { getFileBrowserUrl } from '../shared/fileBrowserStore';
 
 const TELEGRAM_URL = 'https://web.telegram.org/k/#@sara712_bot';
 
@@ -108,7 +109,10 @@ export default function TelegramScreen() {
 
       <FloatingMenu
         currentScreen="telegram"
-        onNavigate={(screen) => navigation.navigate(screen === 'settings' ? 'Terminal' : screen)}
+        onNavigate={(screen) => {
+          if (screen === 'FileBrowser') { navigation.navigate('FileBrowser', { url: getFileBrowserUrl() }); }
+          else { navigation.navigate(screen === 'settings' ? 'Terminal' : screen); }
+        }}
       />
     </View>
   );
