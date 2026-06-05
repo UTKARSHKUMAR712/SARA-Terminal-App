@@ -18,8 +18,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { WebView } from 'react-native-webview';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-
-import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CommandBar from '../components/CommandBar';
 import FloatingMenu from '../components/FloatingMenu';
@@ -53,8 +51,6 @@ export default function TerminalScreen({ route }) {
   const [bgImageUrl, setBgImageUrl] = useState('');
   const [bgOpacity, setBgOpacity] = useState(0.3);
 
-
-  const navigation = useNavigation();
   const STORAGE_KEY = '@sara_settings';
 
   // Load saved settings on mount
