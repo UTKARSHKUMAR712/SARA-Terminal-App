@@ -47,6 +47,7 @@ export default function FileBrowserScreen({ route }) {
           if (screen === 'FileBrowser') { navigation.navigate('FileBrowser', { url: getFileBrowserUrl() }); }
           else { navigation.navigate(screen === 'settings' ? 'Terminal' : screen); }
         }}
+      />
     </View>
   );
 }
