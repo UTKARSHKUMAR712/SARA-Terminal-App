@@ -1,23 +1,33 @@
 {
   "expo": {
-    "name": "SARA Terminal",
+    "name": "SARA",
     "slug": "sara-terminal",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "dark",
     "backgroundColor": "#0d1117",
+    "icon": "./assets/icon.png",
     "assetBundlePatterns": [
       "**/*"
     ],
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0d1117"
+    },
+    "adaptiveIcon": {
+      "foregroundImage": "./assets/adaptive-icon.png",
+      "backgroundColor": "#0d1117"
+    },
     "android": {
-      "package": "com.sara.terminal",
+      "package": "com.sara.app",
       "permissions": [
         "INTERNET"
       ]
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.sara.terminal"
+      "bundleIdentifier": "com.sara.app"
     },
     "plugins": [
       "expo-asset",

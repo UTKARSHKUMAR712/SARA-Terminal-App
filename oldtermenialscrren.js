@@ -18,10 +18,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { WebView } from 'react-native-webview';
 import { Ionicons } from '@expo/vector-icons';
 
-import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CommandBar from '../components/CommandBar';
-import FloatingMenu from '../components/FloatingMenu';
 
 const FONT_SIZES = Array.from({ length: 20 }, (_, i) => i + 5);
 const THEMES_LIST = [
@@ -52,7 +50,6 @@ export default function TerminalScreen() {
   const [bgOpacity, setBgOpacity] = useState(0.3);
 
 
-  const navigation = useNavigation();
   const STORAGE_KEY = '@sara_settings';
 
   // Load saved settings on mount
@@ -156,7 +153,6 @@ export default function TerminalScreen() {
 
   if (!connected) {
     return (
-      <>
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
           <TouchableOpacity
@@ -377,12 +373,7 @@ export default function TerminalScreen() {
           )}
         </View>
       </SafeAreaView>
-      <FloatingMenu
-        currentScreen="terminal"
-        onNavigate={(screen) => navigation.navigate(screen === 'settings' ? 'Terminal' : screen)}
-      />
-    </>
-  );
+    );
   }
 
   return (
@@ -421,10 +412,6 @@ export default function TerminalScreen() {
       </View>
 
       <CommandBar webViewRef={webViewRef} />
-      <FloatingMenu
-        currentScreen="terminal"
-        onNavigate={(screen) => navigation.navigate(screen === 'settings' ? 'Terminal' : screen)}
-      />
     </View>
   );
 }
