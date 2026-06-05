@@ -17,6 +17,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { WebView } from 'react-native-webview';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -34,7 +35,8 @@ const THEMES_LIST = [
 const BG_OPACITIES = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9];
 const DESKTOP_UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
 
-export default function TerminalScreen() {
+export default function TerminalScreen({ route }) {
+  const navigation = useNavigation();
   const [url, setUrl] = useState('');
   const [connected, setConnected] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -73,6 +75,27 @@ export default function TerminalScreen() {
       } catch (e) {}
     })();
   }, []);
+
+  useEffect(() => {
+    if (route?.params?.url) {
+      const u = route.params.url;
+      if (u) {
+        const sep = u.includes('?') ? '&' : '?';
+        let params = 'fontSize=' + fontSize + '&desktop=' + (desktopMode ? '1' : '0');
+        params += '&theme=' + theme;
+        params += '&bgEnabled=' + (backgroundEnabled ? '1' : '0');
+        if (backgroundEnabled) {
+          params += '&bgOpacity=' + bgOpacity;
+          if (bgImageUrl.trim()) {
+            params += '&bgImage=' + encodeURIComponent(bgImageUrl.trim());
+          }
+        }
+        setUrl(u + sep + params);
+        setConnected(true);
+        setLoading(true);
+      }
+    }
+  }, [route?.params?.url]);
 
   // Save settings on any change
   useEffect(() => {
